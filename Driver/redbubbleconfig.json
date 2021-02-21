@@ -1,0 +1,32 @@
+{
+	"login": {
+		"url": "https://www.redbubble.com/fr/auth/login",
+		"login": "#ReduxFormInput1",
+		"password": "#ReduxFormInput2",
+		"submit": "#RB_React_Component_LoginFormContainer_0 > div > form > span > button",
+		"landingUrl": "https://www.redbubble.com/fr/explore/for-you/#"
+	},
+	"signUp": {
+		"button": "#RB_React_Component_LoginFormContainer_0 > div > form > p.app-ui-components-LoginForm-LoginForm_p_1WxKN > span > a",
+		"email": "#ReduxFormInput3",
+		"user": "#ReduxFormInput4",
+		"passwd": "#ReduxFormInput5",
+		"submit": "#react-aria-modal-dialog > div > div > form > span > button"
+	},
+	"upload": {
+		"uploadInput": "#select-image-base",
+		"thick": "#work_artist_translate_",
+		"title": "#work_title_",
+		"tags": "#work_tag_field_",
+		"description": "#work_description_",
+		"labels": {
+			"frlabl": "label.add-work-details__language-tab:nth-child(2)",
+			"enlabl": "label.add-work-details__language-tab:nth-child(5)",
+			"delabel": "label.add-work-details__language-tab:nth-child(8)",
+			"eslabel": "label.add-work-details__language-tab:nth-child(11)"
+		},
+		"rights": "#rightsDeclaration",
+		"submmit": "#submit-work",
+		"imageTest": "#add-new-work > div > div.duplicate > div.single-upload.with-uploader.has-image"
+	}
+}
