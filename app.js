@@ -40,7 +40,7 @@ class App {
 		this.app = electron.app
 
 		this.app.whenReady().then(() => {
-			this.win = createMainWindow() //createAuthWindow()
+			this.win = createAuthWindow()
 		})
 		this.app.on('window-all-closed', () => {
 			if (process.platform !== 'darwin') {
