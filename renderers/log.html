@@ -1,0 +1,150 @@
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>RedBubot</title>
+
+    <meta name="description" content="Todolist en ligne et gratuite">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>-->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+
+    <script>
+        window.$ = window.jQuery = require('jquery');
+    </script>
+
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" data-auto-replace-svg="nest"></script>
+
+    <link rel="stylesheet" href="./view/css/style.css" />
+</head>
+<style>
+    .wrapper {
+        display: flex;
+        align-items: stretch;
+    }
+
+    #sidebar {
+        min-width: 250px;
+        max-width: 250px;
+        min-height: 100vh;
+        background-color: #212529;
+        color: white;
+        padding: 1rem;
+        transition: margin 0.5s ease;
+    }
+
+    #sidebar.active {
+        margin-left: -250px;
+    }
+</style>
+<div class="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar">
+        <div>
+            <div class="sidebar-header">
+                <h3>Stats</h3>
+            </div>
+            <ul class="list-unstyled components statList">
+                <li>
+                    <a href="./home.html" style="margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #3a86ff; border-color: #3a86ff;" class="btn btn-success btn-sm btn-block" href="#"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <!--
+				<li>
+					<a href="./settings.html" style="margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #3a86ff; border-color: #3a86ff;" class="btn btn-success btn-sm btn-block" href="#"><i class="fas fa-cog"></i> Settings</a>
+				</li>
+				-->
+                <li>
+                    <a href="./config.html" style="margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #3a86ff; border-color: #3a86ff;" class="btn btn-success btn-sm btn-block" href="#"><i class="fas fa-gamepad"></i> Configs</a>
+                </li>
+                <li>
+                    <a href="./dashboard.html" style="margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #3a86ff; border-color: #3a86ff;" class="btn btn-success btn-sm btn-block" href="#"><i class="fas fa-chart-line"></i> DashBoard</a>
+                </li>
+            </ul>
+            <div class="sidebar-header">
+                <h3>Directories</h3>
+            </div>
+            <ul id="folders" class="list-unstyled components statList">
+
+            </ul>
+            <div class="sidebar-header">
+            </div>
+    </nav>
+    <div style="width: 100%;">
+        <nav class="navbar navbar-expand-lg" style="position: inherit; height: 4rem; background-color: #43aa8b;padding-left: 0; width: 100%;">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse" class="btn">
+                    <i id="sideButtonC" style="display: block;color: white !important;" class="fas fa-times"></i>
+                    <i id="sideButtonO" style="display: none;color: white ! important;" class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="container" class="container" style="margin-top: 2rem;">
+            <div id="panel">
+                <h1>Panel</h1>
+                <ul>
+                    <li>Uploaded files:&#9;<span id="uploaded"></span></li>
+                    <li>Total files:&#9;<span id="last"></span></li>
+                    <li>Errors:&#9;<span id="error"></span></li>
+                    <li>Start of session:&#9;<span id="started"></span></li>
+                    
+                </ul>
+            </div>
+            <div id="logs">
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    $('#sidebarCollapse').on('click', function() {
+        $('#sidebar').toggleClass('active');
+    });
+    $('#sidebarCollapse').on('click', function() {
+        if (document.getElementById('sideButtonC').style.display == "none") {
+            document.getElementById('sideButtonC').style.display = "block";
+            document.getElementById('sideButtonO').style.display = "none";
+        } else {
+            document.getElementById('sideButtonC').style.display = "none";
+            document.getElementById('sideButtonO').style.display = "block";
+        }
+    });
+    const ipc = require('electron').ipcRenderer;
+
+    ipc.on('foldersUpdate', (event, arg) => {
+        document.getElementById('folders').innerHTML = ""
+        $('#inputFolder').attr('placeholder', arg)
+        arg.forEach(element => {
+            var c = element.lastIndexOf('/')
+            var b = element.lastIndexOf('\\')
+            var d = element
+            element = element.substring(Math.max(c, b) + 1)
+            var li = document.createElement("li");
+            var a = document.createElement("a")
+            a.style = "margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #43aa8b; border-color: #43aa8b; overflow-x:hidden;"
+            a.className = "btn btn-success btn-sm btn-block"
+            a.innerHTML = '<i class="fas fa-folder-open"></i> ' + element
+            li.appendChild(a);
+            document.getElementById('folders').appendChild(li);
+            li.addEventListener('click', () => {
+                ipc.send('changeWindowToDirectories', d)
+            })
+        });
+    })
+    ipc.on('log',(event, arg, type)=>{
+        document.getElementById('logs').innerHTML+='<div class="alert alert-'+type+'" role="alert">'+arg+'</div>'
+    })
+    ipc.on('update',(event, count, errCount, length, start)=>{
+        document.getElementById('uploaded').innerText=count;
+        document.getElementById('last').innerText=length;
+        document.getElementById('error').innerText=errCount;
+        document.getElementById('started').innerText=start;
+    })
+
+    ipc.send('initialize')
+</script>

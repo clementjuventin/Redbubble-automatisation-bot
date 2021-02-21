@@ -1,0 +1,22 @@
+{
+  "name": "ultimatebubble",
+  "version": "2.0.1",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "LUX#6129",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^11.2.1"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "deepmerge": "^4.2.2",
+    "jquery": "^3.5.1",
+    "moment": "^2.29.1",
+    "mysql": "^2.18.1",
+    "puppeteer": "^7.1.0"
+  }
+}

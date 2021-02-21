@@ -1,0 +1,250 @@
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>RedBubot</title>
+
+    <meta name="description" content="Todolist en ligne et gratuite">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>-->
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+
+    <script>
+        window.$ = window.jQuery = require('jquery');
+    </script>
+
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" data-auto-replace-svg="nest"></script>
+
+    <link rel="stylesheet" href="./view/css/style.css" />
+</head>
+<style>
+    .wrapper {
+        display: flex;
+        align-items: stretch;
+    }
+
+    #sidebar {
+        min-width: 250px;
+        max-width: 250px;
+        min-height: 100vh;
+        background-color: #212529;
+        color: white;
+        padding: 1rem;
+        transition: margin 0.5s ease;
+    }
+
+    #sidebar.active {
+        margin-left: -250px;
+    }
+</style>
+<div class="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar">
+        <div>
+            <div class="sidebar-header">
+                <h3>Stats</h3>
+            </div>
+            <ul class="list-unstyled components statList">
+                <li>
+                    <a href="./home.html" style="margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #3a86ff; border-color: #3a86ff;" class="btn btn-success btn-sm btn-block" href="#"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <!--
+				<li>
+					<a href="./settings.html" style="margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #3a86ff; border-color: #3a86ff;" class="btn btn-success btn-sm btn-block" href="#"><i class="fas fa-cog"></i> Settings</a>
+				</li>
+				-->
+                <li>
+                    <a href="./config.html" style="margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #3a86ff; border-color: #3a86ff;" class="btn btn-success btn-sm btn-block" href="#"><i class="fas fa-gamepad"></i> Configs</a>
+                </li>
+                <li>
+                    <a href="./dashboard.html" style="margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #3a86ff; border-color: #3a86ff;" class="btn btn-success btn-sm btn-block" href="#"><i class="fas fa-chart-line"></i> DashBoard</a>
+                </li>
+            </ul>
+            <div class="sidebar-header">
+                <h3>Directories</h3>
+            </div>
+            <ul id="folders" class="list-unstyled components statList">
+
+            </ul>
+            <div class="sidebar-header">
+            </div>
+    </nav>
+    <div style="width: 100%;">
+        <nav class="navbar navbar-expand-lg" style="position: inherit; height: 4rem; background-color: #43aa8b;padding-left: 0; width: 100%;">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse" class="btn">
+                    <i id="sideButtonC" style="display: block;color: white !important;" class="fas fa-times"></i>
+                    <i id="sideButtonO" style="display: none;color: white ! important;" class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </nav>
+        <script>
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+            });
+            $('#sidebarCollapse').on('click', function() {
+                if (document.getElementById('sideButtonC').style.display == "none") {
+                    document.getElementById('sideButtonC').style.display = "block";
+                    document.getElementById('sideButtonO').style.display = "none";
+                } else {
+                    document.getElementById('sideButtonC').style.display = "none";
+                    document.getElementById('sideButtonO').style.display = "block";
+                }
+            });
+            const ipc = require('electron').ipcRenderer;
+
+            ipc.on('foldersUpdate', (event, arg) => {
+                document.getElementById('folders').innerHTML = ""
+                $('#inputFolder').attr('placeholder', arg)
+                arg.forEach(element => {
+                    var c = element.lastIndexOf('/')
+                    var b = element.lastIndexOf('\\')
+                    var d = element
+                    element = element.substring(Math.max(c, b) + 1)
+                    var li = document.createElement("li");
+                    var a = document.createElement("a")
+                    a.style = "margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #43aa8b; border-color: #43aa8b; overflow-x:hidden;"
+                    a.className = "btn btn-success btn-sm btn-block"
+                    a.innerHTML = '<i class="fas fa-folder-open"></i> ' + element
+                    li.appendChild(a);
+                    document.getElementById('folders').appendChild(li);
+                    li.addEventListener('click', () => {
+                        ipc.send('changeWindowToDirectories', d)
+                    })
+                });
+            })
+            ipc.send('initialize')
+        </script>
+        <div class="container">
+            <form style="margin-top: 20px;">
+                <div class="row">
+                    <div class=" col-sm-2">
+                        <button style="width: auto;" id="val" type="button" class=" btn btn-primary">Retour</button>
+                    </div>
+                    <div style="margin-bottom: 20px;" class="col-auto btn-group btn-group-toggle" data-toggle="buttons">
+                        <label class="btn btn-secondary active" id="option1">
+                            <input type="radio" value="1" name="options" autocomplete="off"> FR
+                        </label>
+                        <label class="btn btn-secondary" id="option2">
+                            <input type="radio" value="2" name="options" autocomplete="off"> EN
+                        </label>
+                        <label class="btn btn-secondary" id="option3">
+                            <input type="radio" value="3" name="options" autocomplete="off"> DK
+                        </label>
+                        <label class="btn btn-secondary" id="option4">
+                            <input type="radio" value="4" name="options" autocomplete="off"> ES
+                        </label>
+                    </div>
+                    <div class="col-sm-2">
+                        <button style="width: auto;" id="export" type="button" class=" btn btn-secondary"><i class="fas fa-file-export"></i></button>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <input type="text" class="form-control" id="title" placeholder="Titre">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" id="description" placeholder="Description" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control" id="tags" placeholder="Tags (exemple:  tag1, tag2, tag composé)" rows="3"></textarea>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9" style="margin: auto;">
+                        <div class="input-group">
+                            <div class="custom-file" style="overflow: hidden;">
+                                <input type="file" class="custom-file-input" id="input" aria-describedby="image">
+                                <label id='fileInfo' class="custom-file-label" for="input">Fichier</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3" style="padding:1rem;">
+                        <img width="100%" id="image" src='' alt="En cours de changement." />
+                    </div>
+                </div>
+            </form>
+            <script>
+                function offOption(i) {
+                    var id;
+                    id = 'option' + i;
+
+                    document.getElementById('option1').classList.remove('active')
+                    document.getElementById('option2').classList.remove('active')
+                    document.getElementById('option3').classList.remove('active')
+                    document.getElementById('option4').classList.remove('active')
+                    document.getElementById(id).classList.add('active')
+                }
+                document.getElementById('val').addEventListener('click', () => {
+                    ipc.send('changeWindowToDirectories', "")
+                });
+                document.getElementById('export').addEventListener('click', () => {
+                    ipc.send('exportLang', "")
+                });
+                ipc.on('oeuvre', (event, oeuvre, lang) => {
+                    switch (lang) {
+                        case "FR":
+                            offOption(1)
+                            document.getElementById('title').value = oeuvre.title.FR
+                            document.getElementById('description').value = oeuvre.description.FR
+                            document.getElementById('tags').value = oeuvre.tags.FR
+                            break;
+                        case "EN":
+                            offOption(2)
+                            document.getElementById('title').value = oeuvre.title.EN
+                            document.getElementById('description').value = oeuvre.description.EN
+                            document.getElementById('tags').value = oeuvre.tags.EN
+                            break;
+                        case "DK":
+                            offOption(3)
+                            document.getElementById('title').value = oeuvre.title.DK
+                            document.getElementById('description').value = oeuvre.description.DK
+                            document.getElementById('tags').value = oeuvre.tags.DK
+                            break;
+                        case "ES":
+                            offOption(4)
+                            document.getElementById('title').value = oeuvre.title.ES
+                            document.getElementById('description').value = oeuvre.description.ES
+                            document.getElementById('tags').value = oeuvre.tags.ES
+                            break;
+                        default:
+                            break;
+                    }
+                    document.getElementById('fileInfo').innerText = oeuvre.path
+                    document.getElementById('image').src = oeuvre.path
+                });
+
+                var options = document.getElementsByName('options');
+                options.forEach(element => {
+                    element.addEventListener('click', () => {
+                        offOption(parseInt(element.value))
+                        ipc.send('lang', element.value)
+                    })
+                });
+                document.getElementById('title').addEventListener('change', () => {
+                    ipc.send('title', document.getElementById('title').value)
+                });
+                document.getElementById('description').addEventListener('change', () => {
+                    ipc.send('description', document.getElementById('description').value)
+                });
+                document.getElementById('tags').addEventListener('change', () => {
+                    ipc.send('tags', document.getElementById('tags').value)
+                });
+                document.getElementById('input').addEventListener('change', () => {
+                    ipc.send('input', document.getElementById('input').files[0].name)
+                    ipc.send('getOeuvre')
+                });
+                ipc.on('exportWasMade', (event, arg) => {
+                    alert(arg)
+                })
+
+                ipc.send('getOeuvre')
+            </script>
+        </div>
+    </div>
+</div>

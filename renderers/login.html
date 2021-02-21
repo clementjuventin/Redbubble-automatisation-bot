@@ -1,0 +1,40 @@
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>UltimateBot</title>
+
+    <meta name="description" content="Todolist en ligne et gratuite">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" data-auto-replace-svg="nest"></script>
+</head>
+<style>
+    body {
+      overflow: hidden;
+    }
+  </style>
+<form id="loginForm" class="input-group mb-3">
+    <input type="text" class="form-control" id="keyInput" placeholder="Key" aria-label="Recipient's username" aria-describedby="basic-addon2">
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" id="butn" type="submit">Go</button>
+    </div>
+</form>
+<script>
+    const ipc = require('electron').ipcRenderer;
+    let wait = false;
+    document.getElementById('loginForm').addEventListener('submit', () => {
+        if(!wait){
+            wait = true;
+            ipc.send('loginRequest', document.getElementById('keyInput').value)
+        }      
+    })
+    ipc.on('error', (event, arg) => {
+        wait = false
+        alert(arg)
+    })
+</script>

@@ -1,0 +1,129 @@
+
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>UltimateBubble</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+
+    <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" data-auto-replace-svg="nest"></script>
+</head>
+<style>
+    .wrapper {
+        display: flex;
+        align-items: stretch;
+    }
+
+    #sidebar {
+        min-width: 250px;
+        max-width: 250px;
+        min-height: 100vh;
+        background-color: #212529;
+        color: white;
+        padding: 1rem;
+        transition: margin 0.5s ease;
+    }
+
+    #sidebar.active {
+        margin-left: -250px;
+    }
+</style>
+<div class="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar">
+        <div>
+            <div class="sidebar-header">
+                <h3>Stats</h3>
+            </div>
+            <ul class="list-unstyled components statList">
+                <li>
+                    <a href="./home.html" style="margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #3a86ff; border-color: #3a86ff;" class="btn btn-success btn-sm btn-block" href="#"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <!--
+				<li>
+					<a href="./settings.html" style="margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #3a86ff; border-color: #3a86ff;" class="btn btn-success btn-sm btn-block" href="#"><i class="fas fa-cog"></i> Settings</a>
+				</li>
+				-->
+                <li>
+                    <a href="./config.html" style="margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #3a86ff; border-color: #3a86ff;" class="btn btn-success btn-sm btn-block" href="#"><i class="fas fa-gamepad"></i> Configs</a>
+                </li>
+                <li>
+                    <a href="./dashboard.html" style="margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #3a86ff; border-color: #3a86ff;" class="btn btn-success btn-sm btn-block" href="#"><i class="fas fa-chart-line"></i> DashBoard</a>
+                </li>
+            </ul>
+            <div class="sidebar-header">
+                <h3 id="test">Directories</h3>
+            </div>
+            <ul id="folders" class="list-unstyled components statList">
+
+            </ul>
+            <div class="sidebar-header">
+            </div>
+    </nav>
+    <div style="width: 100%;">
+        <nav class="navbar navbar-expand-lg" style="position: inherit; height: 4rem; background-color: #43aa8b;padding-left: 0; width: 100%;">
+            <div class="container-fluid">
+                <button type="button" id="sidebarCollapse" class="btn">
+                    <i id="sideButtonC" style="display: block;color: white !important;" class="fas fa-times"></i>
+                    <i id="sideButtonO" style="display: none;color: white ! important;" class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </nav>
+        <div id="container" class="container">
+            <div class="row">
+                <div class="card col-md-6" style="margin-top: 30px; padding-top: 1rem;">
+                    <img class="card-img-top" src="../assets/img/discord.jpg" alt="--">
+                    <div class="card-body">
+                        <h5 class="card-title">Join us on discord</h5>
+                        <p class="card-text">We gather a community of mutual aid around POD. You can also find all the documentation about the bot and its technical support.</p>
+                        <span>https://discord.gg/QXxurRTbBY</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>window.$ = window.jQuery = require('jquery');</script>
+    <script>
+        $('#sidebarCollapse').on('click', function() {
+            $('#sidebar').toggleClass('active');
+        });
+        $('#sidebarCollapse').on('click', function() {
+            if (document.getElementById('sideButtonC').style.display == "none") {
+                document.getElementById('sideButtonC').style.display = "block";
+                document.getElementById('sideButtonO').style.display = "none";
+            } else {
+                document.getElementById('sideButtonC').style.display = "none";
+                document.getElementById('sideButtonO').style.display = "block";
+            }
+        });
+        const ipc = require('electron').ipcRenderer;
+
+        ipc.on('foldersUpdate', (event, arg) => {
+            document.getElementById('folders').innerHTML = ""
+            arg.forEach(element => {
+                var c = element.lastIndexOf('/')
+                var b = element.lastIndexOf('\\')
+                var d = element
+                element = element.substring(Math.max(c, b) + 1)
+                var li = document.createElement("li");
+                var a = document.createElement("a")
+                a.style = "margin: 0.4rem 0; text-align: left; padding-left: 1rem; background-color: #43aa8b; border-color: #43aa8b; overflow-x:hidden;"
+                a.className = "btn btn-success btn-sm btn-block"
+                a.innerHTML = '<i class="fas fa-folder-open"></i> ' + element
+                li.appendChild(a);
+                document.getElementById('folders').appendChild(li);
+                li.addEventListener('click', () => {
+                    ipc.send('changeWindowToDirectories', d)
+                })
+            });
+        })
+        ipc.send('initialize','home')
+    </script>
+
+        
