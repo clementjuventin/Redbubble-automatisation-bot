@@ -1,0 +1,13 @@
+-changer les langues qui fonctionnent
+
+//DeepL api
+
+-username
+-pattern
+-dashboard
+-data scrapper
+-logs
+-choose color
+-choose copy
+-code enregistrer
+-transition
