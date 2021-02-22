@@ -10,6 +10,7 @@ class User{
         this.baseUrl = ""
         this.update = 0
         this.session = 0
+        this.timeToWait = 360
 
         this.currentLang = "FR"
         this.currentFolder =""
@@ -33,6 +34,7 @@ class User{
             this.baseUrl = config.baseUrl
             this.update = config.update
             this.session = config.session
+            this.timeToWait = config.time
     }
 
     saveUserInFile(){
@@ -49,7 +51,8 @@ class User{
             "username": this.username,
             "baseUrl": this.baseUrl,
             "update": this.update,
-            "session": this.session
+            "session": this.session,
+            "time": this.timeToWait
             }
     }
 }

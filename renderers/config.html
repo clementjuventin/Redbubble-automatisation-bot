@@ -114,6 +114,12 @@
 				</div>
 				<input type="text" class="form-control" id="baseUrl" placeholder="ex: https://www.redbubble.com/portfolio/images/61291073-copie-de-produitcool/duplicate">
 			</div>
+            <div class="input-group mb-2">
+				<div class="input-group-prepend">
+					<div class="input-group-text">Time to wait between uploads:</div>
+				</div>
+				<input type="text" class="form-control" id="timeToWait" placeholder="ex: 360s">
+			</div>
 			<h3 style="margin-top: 2rem;">Patterns</h3>
 		</div>
     </div>
@@ -160,6 +166,7 @@
 	ipc.on('userData', (event, data) => {
 		document.getElementById('username').value = data.username;
 		document.getElementById('baseUrl').value = data.baseUrl;
+        document.getElementById('timeToWait').value = data.time;
 	})
 	document.getElementById('add').addEventListener('click', () => {
 		$('#inputFolder').attr('placeholder', 'ex: C://User/Desktop/folder')
@@ -177,6 +184,9 @@
 	})
 	document.getElementById('baseUrl').addEventListener('change', () => {
 		ipc.send('setBaseUrl', document.getElementById('baseUrl').value)
+	})
+    document.getElementById('timeToWait').addEventListener('change', () => {
+		ipc.send('setTimeToWait', document.getElementById('timeToWait').value)
 	})
 	ipc.on('error', (event, mess) => {
 		alert(mess)

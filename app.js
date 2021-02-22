@@ -133,6 +133,10 @@ class App {
 		ipc.on('setBaseUrl', (event, arg) => {
 			app.user.baseUrl = arg;
 		})
+		ipc.on('setTimeToWait', (event, arg) => {
+			if(!isNaN(arg) && arg > 1)
+				app.user.timeToWait = arg;
+		})
 		//DIRECTORIES
 		ipc.on('delCurrent', (event) => {
 			app.user.folders.pop(app.user.currentFolder)
@@ -186,7 +190,7 @@ class App {
 					count++
 					event.reply('log', castLog('Upload ' + count + '/' + allFiles.length + ' in progress.'), 'primary')
 					try {
-						await upload(readDataFiles(file), app.user.baseUrl)
+						await upload(readDataFiles(file), app.user.baseUrl, app.user.timeToWait)
 						event.reply('log', castLog(file + ' was uploaded.'), 'success')
 					} catch (error) {
 						if (error.name == "TimeoutError") {

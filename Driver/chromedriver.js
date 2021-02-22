@@ -510,7 +510,7 @@ function delay(time) {
 		setTimeout(resolve, time)
 	});
 }
-async function upload(oeuvre, baseUrl) {
+async function upload(oeuvre, baseUrl, timeToWait) {
 	page = await browser.newPage();
 	page.on('dialog', async dialog => {
 		await dialog.dismiss();
@@ -542,7 +542,7 @@ async function upload(oeuvre, baseUrl) {
 	await page.waitForSelector(redbubble.upload.imageTest, {
 		timeout: 180000
 	});
-	await delay(1000)
+	await delay(1000 * timeToWait)
 	var oldUrl = page.url()
 	await page.click(redbubble.upload.submmit);
 	while (page.url() == oldUrl) {
