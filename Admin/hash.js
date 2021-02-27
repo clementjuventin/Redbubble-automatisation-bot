@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 // Generate Salt
 const salt = bcrypt.genSaltSync(15);
 
-const pswd = 'N3aqV5q7cHN8RH6K'
+const pswd = 'goKYHHuCWpwp2T5x'
 // Hash Password
 const hash = bcrypt.hashSync(pswd, salt);
 
