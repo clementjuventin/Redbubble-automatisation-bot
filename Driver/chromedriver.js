@@ -522,22 +522,39 @@ async function upload(oeuvre, baseUrl, timeToWait) {
         throw "The given url doesn't work. Please set it up in the 'config' tab."
 	}
 	
-
+    let uploadError = false;
     await uploadPath(oeuvre.path);
-
-    try{
+    try {
         await page.click(redbubble.upload.labels.frlabl);
-        await fillWith(oeuvre.title.FR, oeuvre.tags.FR, oeuvre.description.FR, "fr");
-        await page.click(redbubble.upload.labels.enlabl);
         await fillWith(oeuvre.title.EN, oeuvre.tags.EN, oeuvre.description.EN, "en");
-        await page.click(redbubble.upload.labels.delabel);
-        await fillWith(oeuvre.title.DK,oeuvre.tags.DK,oeuvre.description.DK, "dk");
-        await page.click(redbubble.upload.labels.eslabel);
-        await fillWith(oeuvre.title.ES,oeuvre.tags.ES,oeuvre.description.ES, "es");    
-    }catch{
-
+    } catch (error) {
+        try {
+            await page.click(redbubble.upload.labels.frlabl);
+            await fillWith(oeuvre.title.FR, oeuvre.tags.FR, oeuvre.description.FR, "fr");
+            await page.click(redbubble.upload.labels.enlabl);
+            await fillWith(oeuvre.title.EN, oeuvre.tags.EN, oeuvre.description.EN, "en");
+            await page.click(redbubble.upload.labels.delabel);
+            await fillWith(oeuvre.title.DK,oeuvre.tags.DK,oeuvre.description.DK, "de");
+            await page.click(redbubble.upload.labels.eslabel);
+            await fillWith(oeuvre.title.ES,oeuvre.tags.ES,oeuvre.description.ES, "es");
+        } catch (error) {
+            
+        }
+        uploadError = true;
     }
-	
+    if(!uploadError){
+        try {
+            await page.click(redbubble.upload.labels.enlabl);
+            await fillWith(oeuvre.title.DK,oeuvre.tags.DK,oeuvre.description.DK, "de");
+            await page.click(redbubble.upload.labels.delabel);
+            await fillWith(oeuvre.title.FR, oeuvre.tags.FR, oeuvre.description.FR, "fr");
+            await page.click(redbubble.upload.labels.eslabel);
+            await fillWith(oeuvre.title.ES,oeuvre.tags.ES,oeuvre.description.ES, "es");
+        } catch (error) {
+            
+        }
+    }
+
 	await page.click(redbubble.upload.rights);
 	await page.waitForSelector(redbubble.upload.imageTest, {
 		timeout: 180000
