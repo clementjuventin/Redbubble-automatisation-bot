@@ -17,23 +17,19 @@
 >   * [Code](#code)
 >     * [Content](#content)
 >     * [Requirements](#requirements)
->     * [Limitations](#limitations)
 >     * [Build](#build)
 >     * [Deploy (how to install build product)](#deploy-how-to-install-build-product)
->   * [Resources (Documentation and other links)](#resources-documentation-and-other-links)
->   * [Contributing / Reporting issues](#contributing--reporting-issues)
 >   * [License](#license)
->   * [About Nuxeo](#about-nuxeo)
+>   * [About Celerity](#about-celerity)
 
 ## Installation
-
-Sample:
 
 * Download the bot via GitHub.
 * Create a chrome shortcut.
 * Left click on the shortcut, property tab and paste this to the end: `--remote-debugging-port=9222`
 * Close all your chrome tabs.
 * Open chrome from your shortcut, log in to redbubble and let the tab open.
+* Run `npm init` at the root of the project to download modules.
 * Run the bot with `npm start` at the root of the project.
 * This is a free key for you `c3TvMXLsWTzs5Jan` (I might do a branch without authentication later)
 
@@ -43,8 +39,38 @@ Use this bot to send your works quickly on Redbbuble. Be careful not to spam the
 Leave a gap between uploads, I recommend 120 to 360 seconds.
 
 ### Screenshots
-![alt text](http://url/to/img.png)
+#### Config tab
+![Settings screen shot](https://github.com/clementjuventin/Javascript-ElectronJS-Celerity/blob/main/Admin/Documentation/config.PNG)
+
+#### Folder tab
+![Folder tab screen shot](https://github.com/clementjuventin/Javascript-ElectronJS-Celerity/blob/main/Admin/Documentation/oeuvres.PNG)
+
+#### Works details
+![Works details screen shot](https://github.com/clementjuventin/Javascript-ElectronJS-Celerity/blob/main/Admin/Documentation/description.PNG)
+
+#### Example of usage
+![Example of usage screen shot](https://github.com/clementjuventin/Javascript-ElectronJS-Celerity/blob/main/Admin/Documentation/exempleDutilisation.PNG)
+
+#### Upload session
+![Upload session screen shot](https://github.com/clementjuventin/Javascript-ElectronJS-Celerity/blob/main/Admin/Documentation/sesEnd.PNG)
+
+
 ### Features
+Here are the main options to be filled in the config tab. 
+* The file path field allows you to paste the path to your directory containing the images you want to upload.
+* The base URL represents the work configuration you wish to hang on. 
+* The username field is unnecessary at this time.
+
+Here are the main features in the folder tab. 
+* Export: Copy a work configuration to all other
+* Refresh: Refresh the directory
+* Upload: Start an upload session
+* Bin: Delete the directory
+
+Here are the main features in the works details tab. 
+* Retour: Back to folder tab
+* Lang: Choose your language. This will not be applied if the base work does not reference the language.
+* Export: Export a lang to all other
 
 ## Code
 
@@ -52,53 +78,32 @@ Leave a gap between uploads, I recommend 120 to 360 seconds.
 
 ### Content
 
-Description, sub-modules organization...
+I had to slightly modify the puppeteer module to make it work.
 
 ### Requirements
 
-See [CORG/Compiling Nuxeo from sources](http://doc.nuxeo.com/x/xION)
-
-Sample: <https://github.com/nuxeo/nuxeo/blob/master/nuxeo-distribution/README.md>
-
-### Limitations
-
-Sample: <https://github.com/nuxeo-archives/nuxeo-features/tree/master/nuxeo-elasticsearch>
+[electron](https://www.electronjs.org/n)
+[puppeteer](https://www.npmjs.com/package/puppeteer)
+[bcrypt](https://www.npmjs.com/package/bcrypt)
+[deepmerge](https://www.npmjs.com/package/deepmerge)
+[jquery](https://www.npmjs.com/package/jquery)
+[mysql](https://www.npmjs.com/package/mysql)
 
 ### Build
 
-    mvn clean install
-
-Build options:
-
-* ...
+* Download electron-builder
+* Run `electron-builder` at the root of the project
+* I have never been able to get the build to work other than by moving all the .js files (excluding modules) into the new directory created
 
 ### Deploy (how to install build product)
 
-Direct to MP package if any. Otherwise provide steps to deploy on Nuxeo Platform:
-
- > Copy the built artifacts into `$NUXEO_HOME/templates/custom/bundles/` and activate the `custom` template.
-
-## Resources (Documentation and other links)
-
-## Contributing / Reporting issues
-
-Link to JIRA component (or project if there is no component for that project). Samples:
-
-* [Link to component](https://jira.nuxeo.com/issues/?jql=project%20%3D%20NXP%20AND%20component%20%3D%20Elasticsearch%20AND%20Status%20!%3D%20%22Resolved%22%20ORDER%20BY%20updated%20DESC%2C%20priority%20DESC%2C%20created%20ASC)
-* [Link to project](https://jira.nuxeo.com/secure/CreateIssue!default.jspa?project=NXP)
+Once you built the bot, you can just start it from the .exe file.
 
 ## License
 
-[Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
+I made it myself, if this bot allowed you to earn money and you are grateful here is my paypal: clementjuventinp@gmail.com  :)
 
-## About Nuxeo
+## About Celerity
 
-Nuxeo Platform is an open source Content Services platform, written in Java. Data can be stored in both SQL & NoSQL databases.
-
-The development of the Nuxeo Platform is mostly done by Nuxeo employees with an open development model.
-
-The source code, documentation, roadmap, issue tracker, testing, benchmarks are all public.
-
-Typically, Nuxeo users build different types of information management solutions for [document management](https://www.nuxeo.com/solutions/document-management/), [case management](https://www.nuxeo.com/solutions/case-management/), and [digital asset management](https://www.nuxeo.com/solutions/dam-digital-asset-management/), use cases. It uses schema-flexible metadata & content models that allows content to be repurposed to fulfill future use cases.
-
-More information is available at [www.nuxeo.com](https://www.nuxeo.com).
+I did this project out of curiosity to learn and because I use it personally.
+I don't know if I will continue to improve this tool, but if you are interested contact me by mail or on discord!
