@@ -2,3 +2,4 @@
 * text=auto
 
 *.html linguist-detectable=false
+*.js linguist-detectable=true
