@@ -29,7 +29,7 @@
 * Left click on the shortcut, property tab and paste this to the end: `--remote-debugging-port=9222`
 * Close all your chrome tabs.
 * Open chrome from your shortcut, log in to redbubble and let the tab open.
-* Run `npm init` at the root of the project to download modules.
+* Run `npm install` at the root of the project to download modules.
 * Run the bot with `npm start` at the root of the project.
 * This is a free key for you `c3TvMXLsWTzs5Jan` (I might do a branch without authentication later)
 
