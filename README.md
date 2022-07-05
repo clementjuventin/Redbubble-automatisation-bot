@@ -1,4 +1,4 @@
-# RedBubble auto-upload Bot
+# RedBubble auto-upload Bot : Depreciated
 ## About
 
 * This bot will allow you to send designs to the redbubble platform automatically and faster
