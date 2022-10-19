@@ -1,9 +1,10 @@
 # RedBubble auto-upload Bot : Depreciated
 ## About
 
+PLEASE NOTE THAT THIS BOT IS NO LONGER MAINTAINED AND IS FOR EDUCATIONAL PURPOSES ONLY. THANK YOU
+
 * This bot will allow you to send designs to the redbubble platform automatically and faster
 * Project status: Prototype
-* You can find some support on my discord : https://discord.gg/YHbUUz7sC6
 
 ## Table of contents
 
